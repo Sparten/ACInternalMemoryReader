@@ -1,0 +1,1 @@
+Assetto Corsa Internal memory reader
