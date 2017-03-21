@@ -1,2 +1,5 @@
 EXPORTS
 	getSuspensionDamage
+	getEngineLifeLeft
+	getTyreInflation
+	getAeroDamage

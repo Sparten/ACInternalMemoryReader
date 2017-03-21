@@ -14,7 +14,14 @@
 using namespace std;
 class Sim;
 class Car;
+
+#define LOWORD(_dw)     ((WORD)(((DWORD_PTR)(_dw)) & 0xffff))
+#define HIWORD(_dw)     ((WORD)((((DWORD_PTR)(_dw)) >> 16) & 0xffff))
+#define LODWORD(_qw)    ((DWORD)(_qw))
+#define HIDWORD(_qw)    ((DWORD)(((_qw) >> 32) & 0xffffffff))
+
 #define DllExport   __declspec( dllexport ) 
+
 class GameObject
 {
 public:
@@ -37,9 +44,9 @@ class CarPhysicsState
 public:
 	char padding0[1960];
 	float engineLifeLeft;
-	char padding1[48];
+	char padding1[44];
 	float tyreInflation[4];
-	char padding2[48];
+	char padding2[52];
 	float susDamage[4];
 	float tyreFlatSpot[4];
 	char tyreThermalStates[736];
@@ -101,7 +108,32 @@ public:
 	virtual void step();
 	virtual void setERPCFM();
 };
+class Wing
+{
+public:
+	wstring name;
+	char data[0x2B0];
+	float damageCL[5];
+	float damageCD[5];
+	bool hasDamage;
+	char padding0[3];
+	char overrideStatus[8];
+	//char padding[3];
+	float SPEED_DAMAGE_COEFF;
+	float SURFACE_DAMAGE_COEFF;
+	char padding[4];
 
+
+};
+class AeroMap
+{
+public:
+	char padding0[0x38];
+	vector<Wing> wings;
+	char padding1[24];
+	Car * car;
+
+};
 class SuspensionStrut : public ISuspension
 {
 public:
@@ -110,7 +142,9 @@ class Car
 {
 public:
 	virtual void vfunc0();
-	char padding0[9952];
+	char padding0[0x9D0];
+	AeroMap aeroMap;
+	char tyres[0x1CA0];
 	vector<SuspensionStrut*> suspensions;
 
 };
