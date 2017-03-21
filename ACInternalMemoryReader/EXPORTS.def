@@ -1,5 +1,7 @@
 EXPORTS
-	getSuspensionDamage
-	getEngineLifeLeft
-	getTyreInflation
-	getAeroDamage
+	Init
+	GetSuspensionDamage
+	GetEngineLifeLeft
+	GetTyreInflation
+	GetTyreVirtualKM
+	GetTyreFlatSpot

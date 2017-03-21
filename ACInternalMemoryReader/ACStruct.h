@@ -50,14 +50,13 @@ class CarPhysicsState
 public:
 	char padding0[0x74C];
 	float tyreVirtualKM[4];
-	float damageZoneLevel[5];
-	char padding1[0x38];
+	char padding1[0x4C];
 	float engineLifeLeft;
-	char padding2[0x2C];
+	char padding2[0x30];
 	float tyreInflation[4];
-	char padding3[0x38];
+	char padding3[0x1C];
 	float tyreFlatSpot[4];
-	char padding4[0x330];
+	char padding4[0x348];
 };
 
 class ISuspension
@@ -82,37 +81,13 @@ public:
 	virtual void vfunc16();
 	virtual float getDamage();
 };
-class Wing
-{
-public:
-	wstring name;
-	char data[0x2B0];
-	float damageCL[5];
-	float damageCD[5];
-	bool hasDamage;
-	char padding0[3];
-	char overrideStatus[8];
-	float SPEED_DAMAGE_COEFF;
-	float SURFACE_DAMAGE_COEFF;
-	char padding[4];
-};
 
-class AeroMap
-{
-public:
-	char padding0[0x38];
-	vector<Wing> wings;
-	char padding1[0x20];
-};
 class Car
 {
 public:
 	virtual void vfunc0();
-	char padding0[0x9D0];
-	AeroMap aeroMap;
-	char padding1[0x1CA0];
+	char padding0[0x26E0];
 	vector<ISuspension*> suspensions;
-
 };
 
 class CarAvatar : public GameObject
