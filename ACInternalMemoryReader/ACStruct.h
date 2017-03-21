@@ -1,3 +1,8 @@
+/*
+Created to add functinality to Crew Chief that is otherwise inaccessible.
+Classes are as minimal as can be to prevent the less moraly gifted from exploiting the Sim.
+*/
+
 //.//.data:0000000141515E70; PythonInterface *pyi
 //1515E70 //00007FF6EF140000
 /*
@@ -11,6 +16,7 @@
 #include <memory>
 #include <string>
 #include <memory>
+
 using namespace std;
 class Sim;
 class Car;
@@ -42,71 +48,39 @@ class IKeyEventListener
 class CarPhysicsState
 {
 public:
-	char padding0[1960];
+	char padding0[0x74C];
+	float tyreVirtualKM[4];
+	float damageZoneLevel[5];
+	char padding1[0x38];
 	float engineLifeLeft;
-	char padding1[44];
+	char padding2[0x2C];
 	float tyreInflation[4];
-	char padding2[52];
-	float susDamage[4];
+	char padding3[0x38];
 	float tyreFlatSpot[4];
-	char tyreThermalStates[736];
-	float discTemps[4];
-	float wear[4];
-	float wearMult[4];
-	float lockControlsTime;
-	float kersCurrentKJ;
-	bool kersIsCharging;
-	char padding3[3];
-	byte statusBytes[4];
-	char padding4[4];
+	char padding4[0x330];
 };
 
-class ISuspensionAvatar
-{
-public:
-	virtual void vfunc0();
-
-};
-
-class SuspensionAvatar : public ISuspensionAvatar
-{
-public:
-	intptr_t wheelTransforms[4];
-	intptr_t susTransforms[4];
-	intptr_t discTransforms[4];
-	intptr_t rearAxle;
-	Car *car;
-	char graphicsRadius[8];
-	bool isGraphicsRadiusInitialized;
-	char padding1[7];
-};
-class ISuspension 
+class ISuspension
 {
 public:
 	virtual  ~ISuspension();
-	virtual void getHubWorldMatrix(void);
-	virtual void getPointVelocity();
-	virtual void addForceAtPos();
-	virtual void addTorque();
-	virtual void setSteerLengthOffset();
-	virtual void getSteerTorque();
-	virtual void getHubAngularVelocity();
-	virtual void attach();
-	virtual void getStatus();
-	virtual void getBasePosition();
-	virtual void getK();
-	virtual void getDamper();
-	virtual void getPackerRange();
-	virtual void getDebugLines();
-	virtual void setDamage();
-	virtual void resetDamage();
+	virtual void vfun1c();
+	virtual void vfun2c();
+	virtual void vfunc3();
+	virtual void vfunc4();
+	virtual void vfunc5();
+	virtual void vfunc6();
+	virtual void vfunc7();
+	virtual void vfunc8();
+	virtual void vfunc9();
+	virtual void vfunc10();
+	virtual void vfunc11();
+	virtual void vfunc12();
+	virtual void vfunc13();
+	virtual void vfunc14();
+	virtual void vfunc15();
+	virtual void vfunc16();
 	virtual float getDamage();
-	virtual void getMass();
-	virtual void stop();
-	virtual void getVelocity();
-	virtual void getSteerBasis();
-	virtual void step();
-	virtual void setERPCFM();
 };
 class Wing
 {
@@ -118,25 +92,17 @@ public:
 	bool hasDamage;
 	char padding0[3];
 	char overrideStatus[8];
-	//char padding[3];
 	float SPEED_DAMAGE_COEFF;
 	float SURFACE_DAMAGE_COEFF;
 	char padding[4];
-
-
 };
+
 class AeroMap
 {
 public:
 	char padding0[0x38];
 	vector<Wing> wings;
-	char padding1[24];
-	Car * car;
-
-};
-class SuspensionStrut : public ISuspension
-{
-public:
+	char padding1[0x20];
 };
 class Car
 {
@@ -144,60 +110,25 @@ public:
 	virtual void vfunc0();
 	char padding0[0x9D0];
 	AeroMap aeroMap;
-	char tyres[0x1CA0];
-	vector<SuspensionStrut*> suspensions;
+	char padding1[0x1CA0];
+	vector<ISuspension*> suspensions;
 
 };
 
 class CarAvatar : public GameObject
 {
 public:
-
-	char padding0[192];
-	Sim  *sim;
-	wstring unixName;
-	wstring configName;
-	wstring guiName;
-	wstring guiShortName;
-	intptr_t bodyTransform;
-	intptr_t steerTransformHR;
-	intptr_t steerTransformLR;
-	char padding1[64];
-	intptr_t carNode;
-	char driverEyesPosition[16];
-	char bodyMatrix[64];
-	char padding2[4];
+	char padding0[0x1F8];
 	CarPhysicsState physicsState;
-	char aiState[0x34];
-	char padding3[4];
-	intptr_t carAudioFMOD;
-	intptr_t skidMarkBuffers[4];
-	char physicsInfo[312];
-	unique_ptr<void> raceEngineer;
-	char modelBoundaries[0x18];
-	vector<void*> wingsStatus;
-	char onBoardExposure[4];
-	char outBoardExposure[4];
-	char dashBoardExposure[4];
-	char padding4[4];
-	vector<void*> cameras;
-	//bool isDriverHR;
-	//char padding5[7];
-	intptr_t driverModel_HR;
-	intptr_t driverModel_LR;
-	SuspensionAvatar *suspensionAvatar;
-	char padding5[328];
+	char padding1[0x360];
 	Car *physics;
-	//SuspensionAvatar *suspensionAvatar;
-	//char padding0[1952];
-	//float susDamage[4];
 };
 
 class Sim : public GameObject,
 	public IKeyEventListener
 {
 public:
-	char padding0[400];
+	char padding0[0x190];
 	vector<CarAvatar*> cars;
 };
 

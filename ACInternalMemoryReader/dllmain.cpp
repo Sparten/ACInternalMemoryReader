@@ -9,7 +9,6 @@ using namespace std;
 
 HANDLE ThreadHandle;
 DWORD threadId;
-HANDLE_PTR g_hModule = NULL;
 PythonInterface *pyi = NULL;
 
 BOOL WINAPI DllMain(HANDLE_PTR  hModule, DWORD ul_reason_for_call, LPVOID lpReserved);
@@ -46,16 +45,19 @@ intptr_t FindPattern(intptr_t start_offset, intptr_t size, char *pattern, char *
 	DWORD byteMatchedIndex = 0;
 	int searchLen = strlen(mask) - 1;
 
-	for (intptr_t scanAddress = start_offset; scanAddress < start_offset + size; scanAddress++) {
+	for (intptr_t scanAddress = start_offset; scanAddress < start_offset + size; scanAddress++) 
+	{
 		//Do scan
 		if (*(BYTE*)scanAddress == (BYTE)pattern[byteMatchedIndex] || mask[byteMatchedIndex] == '?')
 		{
-			if (mask[byteMatchedIndex + 1] == '\0') {
+			if (mask[byteMatchedIndex + 1] == '\0') 
+			{
 				return (scanAddress - searchLen);
 			}
 			byteMatchedIndex++;
 		}
-		else {
+		else 
+		{
 			byteMatchedIndex = 0;
 		}
 	}
@@ -126,9 +128,9 @@ DWORD_PTR Thread(LPVOID LParam)
 
 	add_log("AeroMap -> %016llX", sizeof(AeroMap));
 	add_log("sizeof(Wing) -> %016llX", sizeof(Wing));
+	add_log("sizeof(CarPhysicsState) -> %016llX", sizeof(CarPhysicsState));
 	add_log("sizeof(std::vector<Wing >) -> %016llX", sizeof(std::vector<Wing >));
 
-	
 	add_log("offsetof(Car::suspensions -> %016llX", offsetof(Car, suspensions));
 	add_log("offsetof(Car::aeroMap -> %016llX", offsetof(Car, aeroMap));
 	add_log("offsetof(AeroMap::wings -> %016llX", offsetof(AeroMap, wings));
@@ -161,20 +163,15 @@ BOOL WINAPI DllMain(HANDLE_PTR  hModule, DWORD ul_reason_for_call, LPVOID lpRese
 {
 	switch (ul_reason_for_call)
 	{
-	case DLL_PROCESS_ATTACH:
-	{
-		g_hModule = hModule;
-		ThreadHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)Thread, lpReserved, NULL, (LPDWORD)&threadId);
-		break;
-	}
-	case DLL_THREAD_ATTACH:
-		break;
-	case DLL_THREAD_DETACH:
-		break;
-	case DLL_PROCESS_DETACH:
-	{
-		break;
-	}
+		case DLL_PROCESS_ATTACH:
+			ThreadHandle = CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)Thread, lpReserved, NULL, (LPDWORD)&threadId);
+			break;
+		case DLL_THREAD_ATTACH:
+			break;
+		case DLL_THREAD_DETACH:
+			break;
+		case DLL_PROCESS_DETACH:
+			break;
 	}
 	return TRUE;
 }
