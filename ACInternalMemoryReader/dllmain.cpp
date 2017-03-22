@@ -70,6 +70,7 @@ DllExport int32_t WINAPI Init()
 		intptr_t patternAddress = (intptr_t)FindPattern((intptr_t)GetModuleHandle(NULL), 0x0000000002000000,
 			(CHAR *)"\x48\x89\x1D\x00\x00\x00\x00\x48\x8D\x0D\x00\x00\x00\x00\xFF\x15\x00\x00\x00\x00\x4C\x89\x73\x58",
 			(CHAR *)"xxx????xxx????xx????xxxx") + 3;
+	
 		if (patternAddress == NULL)
 		{
 			return isInitialized;
@@ -77,10 +78,20 @@ DllExport int32_t WINAPI Init()
 		try
 		{
 			pyi = (PythonInterface*)*(intptr_t*)(patternAddress + LODWORD(*(intptr_t*)patternAddress + 4));
-			if (pyi->name.compare(L"PYTHON_INTERFACE") == 0)
+			if (pyi != nullptr)
 			{
-				isInitialized = 1;
-				return isInitialized;
+				if (pyi->pSim->name.compare(L"ACS_SIM") == 0)
+				{
+					if (pyi->name.compare(L"PYTHON_INTERFACE") == 0)
+					{
+						if (pyi->pSim->cars[0]->name.compare(L"CAR_AVATAR") == 0)
+						{
+							isInitialized = 1;
+							return isInitialized;
+						}
+						
+					}
+				}
 			}
 		}
 		catch (exception e)
