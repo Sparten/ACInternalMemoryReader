@@ -80,9 +80,9 @@ DllExport int32_t WINAPI Init()
 			pyi = (PythonInterface*)*(intptr_t*)(patternAddress + LODWORD(*(intptr_t*)patternAddress + 4));
 			if (pyi != nullptr)
 			{
-				if (pyi->pSim->name.compare(L"ACS_SIM") == 0)
+				if (pyi->name.compare(L"PYTHON_INTERFACE") == 0)
 				{
-					if (pyi->name.compare(L"PYTHON_INTERFACE") == 0)
+					if (pyi->pSim->name.compare(L"ACS_SIM") == 0)
 					{
 						if (pyi->pSim->cars[0]->name.compare(L"CAR_AVATAR") == 0)
 						{
