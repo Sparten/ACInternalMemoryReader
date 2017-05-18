@@ -86,7 +86,7 @@ class Car
 {
 public:
 	virtual void vfunc0();
-	char padding0[0x26FC];
+	char padding0[0x2740];
 	vector<ISuspension*> suspensions;
 };
 
@@ -95,7 +95,7 @@ class CarAvatar : public GameObject
 public:
 	char padding0[0x210];
 	CarPhysicsState physicsState;
-	char padding1[0x35C];
+	char padding1[0x384];
 	Car *physics;
 };
 
@@ -103,7 +103,7 @@ class Sim : public GameObject,
 	public IKeyEventListener
 {
 public:
-	char padding0[0x194];
+	char padding0[0x1A0];
 	vector<CarAvatar*> cars;
 };
 
