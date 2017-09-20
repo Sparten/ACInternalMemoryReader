@@ -56,7 +56,7 @@ public:
 	float tyreInflation[4];
 	char padding3[0x1C];
 	float tyreFlatSpot[4];
-	char padding4[0x348];
+	char padding4[0x358];
 };
 
 class ISuspension
@@ -86,7 +86,7 @@ class Car
 {
 public:
 	virtual void vfunc0();
-	char padding0[0x2740];
+	char padding0[0x2C80];
 	vector<ISuspension*> suspensions;
 };
 
