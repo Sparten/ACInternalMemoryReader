@@ -95,7 +95,7 @@ class CarAvatar : public GameObject
 public:
 	char padding0[0x210];
 	CarPhysicsState physicsState;
-	char padding1[0x384];
+	char padding1[0x38C];
 	Car *physics;
 };
 
@@ -103,7 +103,7 @@ class Sim : public GameObject,
 	public IKeyEventListener
 {
 public:
-	char padding0[0x1A0];
+	char padding0[0x1A8];
 	vector<CarAvatar*> cars;
 };
 

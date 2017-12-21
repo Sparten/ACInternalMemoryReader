@@ -7,8 +7,6 @@
 
 using namespace std;
 
-HANDLE ThreadHandle;
-DWORD threadId;
 PythonInterface *pyi = NULL;
 int32_t isInitialized = 0;
 
@@ -20,17 +18,15 @@ string ws2s(const std::wstring& wstr)
 void __cdecl add_log(const char *fmt, ...)
 {
 
-	if (!fmt || !strlen(fmt)) { return; }
-	static char dir[512] = "";
+	if (!fmt || !strlen(fmt))
+	{ return; }
 	va_list va_alist;
 	char logbuf[20000] = { 0 };
 	va_start(va_alist, fmt);
 	_vsnprintf_s(logbuf + strlen(logbuf), sizeof(logbuf) - strlen(logbuf), _TRUNCATE, fmt, va_alist);
 	va_end(va_alist);
 	std::ofstream ofile;
-	strcpy_s(dir, _TRUNCATE, "C:\\");
-	strcat_s(dir, "ACI_log.txt");
-	ofile.open(dir, std::ios::app);
+	ofile.open("d:\\log.txt", std::ios::app);
 	if (ofile)
 	{
 		ofile << logbuf << std::endl;
@@ -70,7 +66,7 @@ DllExport int32_t WINAPI Init()
 		intptr_t patternAddress = (intptr_t)FindPattern((intptr_t)GetModuleHandle(NULL), 0x0000000002000000,
 			(CHAR *)"\x48\x89\x1D\x00\x00\x00\x00\x48\x8D\x0D\x00\x00\x00\x00\xFF\x15\x00\x00\x00\x00\x4C\x89\x73\x58",
 			(CHAR *)"xxx????xxx????xx????xxxx") + 3;
-	
+
 		if (patternAddress == NULL)
 		{
 			return isInitialized;
